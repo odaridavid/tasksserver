@@ -1,8 +1,8 @@
 package com.github.odaridavid.models
 
-data class ToDo(
+data class Task(
     val id: Int,
     val userId: Int,
-    val todo: String,
-    val done: Boolean
+    val task: String,
+    val isDone: Boolean
 )

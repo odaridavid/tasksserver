@@ -3,11 +3,12 @@ package com.github.odaridavid
 import com.github.odaridavid.authentication.JwtService
 import com.github.odaridavid.authentication.hash
 import com.github.odaridavid.db.DatabaseFactory
+import com.github.odaridavid.repositories.TaskRepository
 import com.github.odaridavid.repositories.UserRepository
 import com.github.odaridavid.routes.root
-import com.github.odaridavid.routes.todo
+import com.github.odaridavid.routes.tasks
 import com.github.odaridavid.routes.users
-import com.github.odaridavid.sessions.ToDoSession
+import com.github.odaridavid.sessions.TaskSession
 import io.ktor.application.*
 import io.ktor.routing.*
 import io.ktor.locations.*
@@ -21,26 +22,32 @@ import io.ktor.util.KtorExperimentalAPI
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @KtorExperimentalAPI
+@KtorExperimentalLocationsAPI
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    install(Locations) {
-    }
+
+    install(Locations)
 
     install(Sessions) {
-        cookie<ToDoSession>("MY_SESSION") {
+        cookie<TaskSession>("TASK_SESSION") {
             cookie.extensions["SameSite"] = "lax"
         }
     }
+
+    //Data
     DatabaseFactory.init()
     val userRepo = UserRepository()
+    val taskRepo = TaskRepository()
+
+    //Security
     val jwt = JwtService()
     val hashPassword = { s: String -> hash(s) }
 
     install(Authentication) {
         jwt("jwt") {
             verifier(jwt.verifier)
-            realm = "ToDo Server"
+            realm = "Task Server"
             validate {
                 val payload = it.payload
                 val claim = payload.getClaim("id").asInt()
@@ -57,9 +64,8 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         root()
-        users()
-        todo()
+        users(userRepo, jwt, hashPassword)
+        tasks(taskRepo, userRepo)
     }
 }
 
-const val API_VERSION = "/v1"

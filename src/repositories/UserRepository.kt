@@ -13,10 +13,10 @@ class UserRepository : IUserRepository {
     override suspend fun createUser(email: String, displayName: String, passwordHash: String): User? {
         var statement: InsertStatement<Number>? = null
         executeDbQuery {
-            statement = Users.insert { user ->
-                user[Users.email] = email
-                user[Users.displayName] = displayName
-                user[Users.passwordHash] = passwordHash
+            statement = Users.insert { column ->
+                column[Users.email] = email
+                column[Users.displayName] = displayName
+                column[Users.passwordHash] = passwordHash
             }
         }
         return rowToUser(statement?.resultedValues?.get(0))
