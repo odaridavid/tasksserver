@@ -16,7 +16,9 @@ import io.ktor.util.KtorExperimentalAPI
 
 class ApplicationTest {
 
-    //TODO More on Testing
+    //TODO More on Testing and setting up testing env
+
+    @KtorExperimentalLocationsAPI
     @KtorExperimentalAPI
     @Test
     fun testRoot() {
