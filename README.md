@@ -2,6 +2,8 @@
 
 This is me trying to build a RESTful API with Ktor and maintain my Kotlin Stack 😄.
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0c29ba6da89f782872f8)
+
 ### Extra References
 
 [Ktor](https://github.com/ktorio/ktor)
