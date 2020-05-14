@@ -29,14 +29,14 @@ object DatabaseFactory {
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
         //Needed when deployed online e.g heroku or GAE
-        val user = System.getenv("DB_USER")
-        user?.run {
-            config.username = user
-        }
-        val password = System.getenv("DB_PASSWORD")
-        password?.run {
-            config.password = password
-        }
+//        val user = System.getenv("DB_USER")
+//        user?.run {
+            config.username = "postgres"
+//        }
+//        val password = System.getenv("DB_PASSWORD")
+//        password?.run {
+            config.password = "pass"
+//        }
         config.validate()
         return HikariDataSource(config)
     }
