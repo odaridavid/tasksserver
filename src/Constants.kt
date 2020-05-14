@@ -12,6 +12,8 @@ object Constants {
 
         //Todos
         const val TASKS = "$API_VERSION/tasks"
+        const val TASK = "$TASKS/{id}"
+        const val FILTER_TASKS = "$TASKS/filter"
 
     }
 
@@ -20,6 +22,6 @@ object Constants {
         const val DISPLAY_NAME = "displayName"
         const val EMAIL = "email"
         const val TASK = "task"
-        const val IS_DONE = "done"
+        const val IS_DONE = "is_done"
     }
 }

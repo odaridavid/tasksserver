@@ -12,7 +12,7 @@ interface ITaskRepository {
 
     suspend fun filterTasksByCompletion(userId: Int, isDone: Boolean): List<Task>
 
-    suspend fun deleteTask(userId: Int, id: Int)
+    suspend fun deleteTask(userId: Int, id: Int): Int
 
-    suspend fun deleteAllTasks(userId: Int)
+    suspend fun deleteAllTasks(userId: Int): Int
 }

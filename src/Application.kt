@@ -9,15 +9,19 @@ import com.github.odaridavid.routes.root
 import com.github.odaridavid.routes.tasks
 import com.github.odaridavid.routes.users
 import com.github.odaridavid.sessions.TaskSession
-import io.ktor.application.*
-import io.ktor.routing.*
-import io.ktor.locations.*
-import io.ktor.sessions.*
-import io.ktor.auth.*
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
-import io.ktor.gson.*
-import io.ktor.features.*
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Locations
+import io.ktor.routing.routing
+import io.ktor.sessions.Sessions
+import io.ktor.sessions.cookie
 import io.ktor.util.KtorExperimentalAPI
+import kotlin.collections.set
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -47,7 +51,7 @@ fun Application.module(testing: Boolean = false) {
     install(Authentication) {
         jwt("jwt") {
             verifier(jwt.verifier)
-            realm = "Task Server"
+            realm = environment.config.property("jwt.realm").getString()
             validate {
                 val payload = it.payload
                 val claim = payload.getClaim("id").asInt()

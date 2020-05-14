@@ -42,14 +42,14 @@ class TaskRepository : ITaskRepository {
         }
     }
 
-    override suspend fun deleteTask(userId: Int, id: Int) {
-        executeDbQuery {
+    override suspend fun deleteTask(userId: Int, id: Int): Int {
+        return executeDbQuery {
             Tasks.deleteWhere { (Tasks.userId eq userId) and (Tasks.id eq id) }
         }
     }
 
-    override suspend fun deleteAllTasks(userId: Int) {
-        executeDbQuery {
+    override suspend fun deleteAllTasks(userId: Int): Int {
+        return executeDbQuery {
             Tasks.deleteWhere { Tasks.userId eq userId }
         }
     }
