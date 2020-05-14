@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.net.URI
 
 object DatabaseFactory {
     fun init() {
@@ -18,9 +19,11 @@ object DatabaseFactory {
     }
 
     private fun provideHikariDataSource(): HikariDataSource {
+        val dbUri = URI.create(System.getenv("DATABASE_URL"))
+        val dbUrl ="jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}?sslmode=require"
         val config = HikariConfig()
         config.driverClassName = System.getenv("JDBC_DRIVER")
-        config.jdbcUrl = System.getenv("DATABASE_URL")
+        config.jdbcUrl = dbUrl
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
