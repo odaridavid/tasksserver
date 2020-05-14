@@ -1,0 +1,6 @@
+{
+  "name": "Tasks Server",
+  "description": "A todo app ",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}

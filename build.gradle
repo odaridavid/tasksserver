@@ -5,6 +5,7 @@ buildscript {
     
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
     }
 }
 
@@ -14,6 +15,7 @@ apply plugin: 'application'
 group 'com.github.odaridavid'
 version '1.0.0'
 mainClassName = "io.ktor.server.netty.EngineMain"
+
 
 sourceSets {
     main.kotlin.srcDirs = main.java.srcDirs = ['src']
@@ -45,4 +47,11 @@ dependencies {
     implementation "org.postgresql:postgresql:$postgres_version"
     implementation "com.zaxxer:HikariCP:$hikaricp_version"
 
+}
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
 }
