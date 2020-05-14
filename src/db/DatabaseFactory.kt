@@ -20,7 +20,7 @@ object DatabaseFactory {
 
     private fun provideHikariDataSource(): HikariDataSource {
         val dbUri = URI.create(System.getenv("DATABASE_URL"))
-        val dbUrl ="jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}"
+        val dbUrl ="jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}?sslmode=require"
         val config = HikariConfig()
         config.driverClassName = System.getenv("JDBC_DRIVER")
         config.jdbcUrl = dbUrl
@@ -28,7 +28,7 @@ object DatabaseFactory {
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
-        //Needed when deployed online e.g heroku or gcp
+        //Needed when deployed online e.g heroku or GAE
         val user = System.getenv("DB_USER")
         user?.run {
             config.username = user
