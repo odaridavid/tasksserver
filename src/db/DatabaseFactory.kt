@@ -20,7 +20,7 @@ object DatabaseFactory {
 
     private fun provideHikariDataSource(): HikariDataSource {
         val dbUri = URI.create(System.getenv("DATABASE_URL"))
-        val dbUrl ="jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}?sslmode=require"
+        val dbUrl ="jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}"
         val config = HikariConfig()
         config.driverClassName = System.getenv("JDBC_DRIVER")
         config.jdbcUrl = dbUrl
